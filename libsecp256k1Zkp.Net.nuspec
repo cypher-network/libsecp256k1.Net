@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>libsecp256k1Zkp.Net</id>
+    <version>1.1.4</version>
+    <title>libsecp256k1Zkp.Net</title>
+    <authors>pingpongsneak</authors>
+    <owners>Tangram</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/cypher-network/libsecp256k1.Net/main/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/cypher-network/libsecp256k1.Net</projectUrl>
+    <iconUrl>https://github.com/cypher-network.png</iconUrl>
+    <description>This package contains platform-specific native code builds of secp256k1. Included:win-x86/libsecp256k1.dll, win-x64/libsecp256k1.dll, osx-x64/libsecp256k1.dylib and linux-x64/libsecp256k1.so</description>
+    <summary></summary>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <language>en-ZA</language>
+    <tags>Secp256k1 libsecp256k1 Tangram ECDSA bitcoin Grin MimbleWimble</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="Isopoh.Cryptography.SecureArray" version="1.1.10" />
+        <dependency id="Secp256k1.ZKP" version="1.0.13" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
