@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>libsecp256k1Zkp.Net</id>
-    <version>1.1.4</version>
+    <version>1.1.6</version>
     <title>libsecp256k1Zkp.Net</title>
     <authors>pingpongsneak</authors>
     <owners>Tangram</owners>
@@ -19,7 +19,7 @@
     <dependencies>
       <group targetFramework=".NETStandard2.1">
         <dependency id="Isopoh.Cryptography.SecureArray" version="1.1.10" />
-        <dependency id="Secp256k1.ZKP" version="1.0.13" />
+        <dependency id="Secp256k1.ZKP" version="1.0.14" />
       </group>
     </dependencies>
   </metadata>
