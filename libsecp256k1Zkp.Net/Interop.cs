@@ -4,56 +4,55 @@ using System.Security;
 
 namespace Libsecp256k1Zkp.Net
 {
-
     [SuppressUnmanagedCodeSecurity]
     internal static class Secp256k1Native
     {
 #if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
             private const string nativeLibrary = "__Internal";
 #else
-        private const string nativeLibrary = "libsecp256k1";
+        private const string NATIVE_LIBRARY = "libsecp256k1";
 #endif
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr secp256k1_context_create(uint flags);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void secp256k1_context_destroy(IntPtr ctx);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ec_seckey_verify(IntPtr ctx, byte[] seed32);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ecdsa_verify(IntPtr ctx, byte[] sig, byte[] msg32, byte[] pubkey);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ecdsa_sign(IntPtr ctx, byte[] sig, byte[] msg32, byte[] seckey, IntPtr noncefp, IntPtr ndata);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ec_pubkey_serialize(IntPtr ctx, byte[] output, ref uint outputlen, byte[] pubkey, uint flags);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ec_pubkey_create(IntPtr ctx, byte[] pubKeyOut, byte[] privKeyIn);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr secp256k1_scratch_space_create(IntPtr ctx, uint max_size);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_scratch_space_destroy(IntPtr scratch);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ec_pubkey_parse(IntPtr ctx, byte[] pubkey, byte[] input, int inputlen);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_context_randomize(IntPtr ctx, byte[] seed32);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ecdh(IntPtr ctx, byte[] result, byte[] pubkey, byte[] privkey);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ec_pubkey_tweak_add(IntPtr ctx, byte[] pubkey, byte[] tweak);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int secp256k1_ec_privkey_tweak_add(IntPtr ctx, byte[] seckey, byte[] tweak);
 
     }

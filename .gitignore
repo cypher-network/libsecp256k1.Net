@@ -3,3 +3,6 @@
 *.nupkg
 **/bin/
 **/obj/
+.idea
+.DS_Store
+libsecp256k1.Net.sln.DotSettings.user

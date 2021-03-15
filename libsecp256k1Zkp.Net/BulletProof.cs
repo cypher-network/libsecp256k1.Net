@@ -52,7 +52,7 @@ namespace Libsecp256k1Zkp.Net
 
             IntPtr[] mvalues = null;
 
-            if(mValue != 0)
+            if (mValue != 0)
             {
                 mvalues = new IntPtr[1];
                 mvalues[0] = (IntPtr)mValue;

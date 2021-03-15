@@ -10,12 +10,12 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            using var secp256k1 = new Secp256k1();
+            using var secp256K1 = new Secp256k1();
             using var pedersen = new Pedersen();
             using var bulletProof = new BulletProof();
 
             ulong value = 1000;
-            var blinding = secp256k1.CreatePrivateKey();
+            var blinding = secp256K1.CreatePrivateKey();
             var commit = pedersen.Commit(value, blinding);
             var @struct = bulletProof.GenProof(value, blinding, (byte[])blinding.Clone(), (byte[])blinding.Clone(), null, null);
             var success = bulletProof.Verify(commit, @struct.proof, null);
@@ -23,7 +23,7 @@ namespace Example
 
         static void SignWithPubKeyFromCommitment()
         {
-            using var secp256k1 = new Secp256k1();
+            using var secp256K1 = new Secp256k1();
             using var pedersen = new Pedersen();
 
             static string ToHex(byte[] data)
@@ -31,20 +31,20 @@ namespace Example
                 return BitConverter.ToString(data).Replace("-", string.Empty);
             }
 
-            var blinding = secp256k1.CreatePrivateKey();
+            var blinding = secp256K1.CreatePrivateKey();
             var commit = pedersen.Commit(0, blinding);
 
             var msg = "Message for signing";
             var msgBytes = Encoding.UTF8.GetBytes(msg);
             var msgHash = System.Security.Cryptography.SHA256.Create().ComputeHash(msgBytes);
 
-            var sig = secp256k1.Sign(msgHash, blinding);
+            var sig = secp256K1.Sign(msgHash, blinding);
 
             var pubKey = pedersen.ToPublicKey(commit);
 
-            var t = secp256k1.Verify(sig, msgHash, pubKey);
+            var t = secp256K1.Verify(sig, msgHash, pubKey);
 
-            var actualPubKey = secp256k1.CreatePublicKey(blinding);
+            var actualPubKey = secp256K1.CreatePublicKey(blinding);
 
             var eq = ToHex(pubKey) == ToHex(actualPubKey);
         }

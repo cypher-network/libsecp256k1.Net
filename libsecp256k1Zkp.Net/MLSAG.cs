@@ -8,8 +8,8 @@ namespace Libsecp256k1Zkp.Net
 {
     public class Transaction
     {
-        public byte[] Commitment { get; set; }
-        public byte[] PublicKey { get; set; }
+        public byte[]? Commitment { get; set; }
+        public byte[]? PublicKey { get; set; }
     }
 
     public unsafe class MLSAG : IDisposable
@@ -27,7 +27,7 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="sk"></param>
         /// <param name="pk"></param>
         /// <returns></returns>
-        public byte[] ToKeyImage(byte[] sk, byte[] pk)
+        public byte[]? ToKeyImage(byte[] sk, byte[] pk)
         {
             if (pk.Length < Constant.PUBLIC_KEY_COMPRESSED_SIZE)
                 throw new ArgumentException($"{nameof(pk)} must be {Constant.PUBLIC_KEY_COMPRESSED_SIZE} bytes");
@@ -40,17 +40,16 @@ namespace Libsecp256k1Zkp.Net
 
             if (pk.Length == Constant.PUBLIC_KEY_SIZE)
             {
-                using var secp256k1 = new Secp256k1();
-                pk = secp256k1.SerializePublicKey(pk, Flags.SECP256K1_EC_COMPRESSED);
+                using var secp256K1 = new Secp256k1();
+                pk = secp256K1.SerializePublicKey(pk, Flags.SECP256K1_EC_COMPRESSED);
             }
 
-            byte[] keyImage = null;
+            byte[]? keyImage = null;
 
-            if (pk.Length == Constant.PUBLIC_KEY_COMPRESSED_SIZE)
-            {
-                keyImage = new byte[Constant.PUBLIC_KEY_COMPRESSED_SIZE];
-                keyImage = secp256k1_get_keyimage(Context, keyImage, pk, sk) == 0 ? keyImage : null;
-            }
+            if (pk.Length != Constant.PUBLIC_KEY_COMPRESSED_SIZE) return keyImage;
+
+            keyImage = new byte[Constant.PUBLIC_KEY_COMPRESSED_SIZE];
+            keyImage = secp256k1_get_keyimage(Context, keyImage, pk, sk) == 0 ? keyImage : null;
 
             return keyImage;
         }
@@ -58,7 +57,7 @@ namespace Libsecp256k1Zkp.Net
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pubkeys"></param>
+        /// <param name="publicKeys"></param>
         /// <param name="blindSumOut"></param>
         /// <param name="nOuts"></param>
         /// <param name="nBlinded"></param>
@@ -68,9 +67,9 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="outputs"></param>
         /// <param name="blinds"></param>
         /// <returns></returns>
-        public bool Prepare(Span<byte> pubkeys, Span<byte> blindSumOut, int nOuts, int nBlinded, int nCols, int nRows, Span<byte[]> inputs, Span<byte[]> outputs, Span<byte[]> blinds)
+        public bool Prepare(Span<byte> publicKeys, Span<byte> blindSumOut, int nOuts, int nBlinded, int nCols, int nRows, Span<byte[]> inputs, Span<byte[]> outputs, Span<byte[]> blinds)
         {
-            fixed (byte* publicKeysPtr = &MemoryMarshal.GetReference(pubkeys),
+            fixed (byte* publicKeysPtr = &MemoryMarshal.GetReference(publicKeys),
                 blindSumOutPtr = &MemoryMarshal.GetReference(blindSumOut))
             {
                 return secp256k1_prepare_mlsag(publicKeysPtr, blindSumOutPtr, nOuts, nBlinded, nCols, nRows,
@@ -90,16 +89,16 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="nRows"></param>
         /// <param name="index"></param>
         /// <param name="blinds"></param>
-        /// <param name="pubkeys"></param>
+        /// <param name="publicKeys"></param>
         /// <returns></returns>
-        public bool Generate(Span<byte> kiOut, Span<byte> pcOut, Span<byte> psOut, Span<byte> nonce, Span<byte> preimage, int nCols, int nRows, int index, Span<byte[]> blinds, Span<byte> pubkeys)
+        public bool Generate(Span<byte> kiOut, Span<byte> pcOut, Span<byte> psOut, Span<byte> nonce, Span<byte> preimage, int nCols, int nRows, int index, Span<byte[]> blinds, Span<byte> publicKeys)
         {
             fixed (byte* kiOutPtr = &MemoryMarshal.GetReference(kiOut),
                 pcOutPtr = &MemoryMarshal.GetReference(pcOut),
                 psOutPtr = &MemoryMarshal.GetReference(psOut),
                 noncePtr = &MemoryMarshal.GetReference(nonce),
                 preimagePtr = &MemoryMarshal.GetReference(preimage),
-                publicKeysPtr = &MemoryMarshal.GetReference(pubkeys))
+                publicKeysPtr = &MemoryMarshal.GetReference(publicKeys))
             {
 
                 return secp256k1_generate_mlsag(Context, kiOutPtr, pcOutPtr, psOutPtr,
@@ -113,15 +112,15 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="preimage"></param>
         /// <param name="nCols"></param>
         /// <param name="nRows"></param>
-        /// <param name="pubkeys"></param>
+        /// <param name="publicKeys"></param>
         /// <param name="ki"></param>
         /// <param name="pc"></param>
         /// <param name="ps"></param>
         /// <returns></returns>
-        public bool Verify(Span<byte> preimage, int nCols, int nRows, Span<byte> pubkeys, Span<byte> ki, Span<byte> pc, Span<byte> ps)
+        public bool Verify(Span<byte> preimage, int nCols, int nRows, Span<byte> publicKeys, Span<byte> ki, Span<byte> pc, Span<byte> ps)
         {
             fixed (byte* preimagePtr = &MemoryMarshal.GetReference(preimage),
-                publicKeysPtr = &MemoryMarshal.GetReference(pubkeys),
+                publicKeysPtr = &MemoryMarshal.GetReference(publicKeys),
                 kiPtr = &MemoryMarshal.GetReference(ki),
                 pcPtr = &MemoryMarshal.GetReference(pc),
                 psPtr = &MemoryMarshal.GetReference(ps))
@@ -135,11 +134,10 @@ namespace Libsecp256k1Zkp.Net
         /// </summary>
         public void Dispose()
         {
-            if (Context != IntPtr.Zero)
-            {
-                secp256k1_context_destroy(Context);
-                Context = IntPtr.Zero;
-            }
+            if (Context == IntPtr.Zero) return;
+
+            secp256k1_context_destroy(Context);
+            Context = IntPtr.Zero;
         }
     }
 }
