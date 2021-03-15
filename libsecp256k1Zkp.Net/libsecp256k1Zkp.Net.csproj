@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>libsecp256k1Zkp.Net</RootNamespace>
     <PackageId>libsecp256k1Zkp.Net</PackageId>
-    <PackageVersion>1.1.4</PackageVersion>
+    <PackageVersion>1.1.7</PackageVersion>
     <Authors>pingpongsneak</Authors>
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/37107370</PackageIconUrl>
     <NeutralLanguage>en-ZA</NeutralLanguage>
@@ -17,6 +16,9 @@
     <Description>This package contains platform-specific native code builds of secp256k1. Included:win-x86/libsecp256k1.dll, win-x64/libsecp256k1.dll, osx-x64/libsecp256k1.dylib and linux-x64/libsecp256k1.so</Description>
     <PackOnBuild>true</PackOnBuild>
     <DevelopmentDependency>true</DevelopmentDependency>
+    <LangVersion>9</LangVersion>
+    <Nullable>enable</Nullable>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,7 +37,6 @@
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2"><PrivateAssets>all</PrivateAssets>
 <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 </PackageReference>
-    <PackageReference Include="Isopoh.Cryptography.SecureArray" Version="1.1.10" />
-    <PackageReference Include="Secp256k1.ZKP" Version="1.0.13" />
+    <PackageReference Include="Secp256k1.ZKP" Version="1.0.15" />
   </ItemGroup>
 </Project>
