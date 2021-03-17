@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>libsecp256k1Zkp.Net</RootNamespace>
     <PackageId>libsecp256k1Zkp.Net</PackageId>
-    <PackageVersion>1.1.7</PackageVersion>
+    <PackageVersion>1.1.8</PackageVersion>
     <Authors>pingpongsneak</Authors>
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/37107370</PackageIconUrl>
     <NeutralLanguage>en-ZA</NeutralLanguage>
