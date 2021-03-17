@@ -37,6 +37,6 @@
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2"><PrivateAssets>all</PrivateAssets>
 <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 </PackageReference>
-    <PackageReference Include="Secp256k1.ZKP" Version="1.0.15" />
+    <PackageReference Include="Secp256k1.ZKP" Version="1.0.16" />
   </ItemGroup>
 </Project>
