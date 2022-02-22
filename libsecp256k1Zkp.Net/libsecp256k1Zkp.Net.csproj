@@ -3,14 +3,14 @@
   <PropertyGroup>
     <RootNamespace>libsecp256k1Zkp.Net</RootNamespace>
     <PackageId>libsecp256k1Zkp.Net</PackageId>
-    <PackageVersion>1.1.8</PackageVersion>
+    <PackageVersion>1.1.10</PackageVersion>
     <Authors>pingpongsneak</Authors>
-    <PackageIconUrl>https://avatars1.githubusercontent.com/u/37107370</PackageIconUrl>
+    <PackageIconUrl>https://github.com/cypher-network.png</PackageIconUrl>
     <NeutralLanguage>en-ZA</NeutralLanguage>
-    <PackageLicenseUrl>https://github.com/tangramproject/Secp256k1-ZKP.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/cypher-network/libsecp256k1.Net/main/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Owners>Tangram Inc</Owners>
-    <PackageProjectUrl>https://github.com/tangramproject/Secp256k1-ZKP.Net</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/cypher-network/libsecp256k1.Net.git</PackageProjectUrl>
     <PackageTags>Secp256k1 libsecp256k1 Tangram ECDSA bitcoin Grin MimbleWimble</PackageTags>
     <Title>Secp256k1.ZKP.Net</Title>
     <Description>This package contains platform-specific native code builds of secp256k1. Included:win-x86/libsecp256k1.dll, win-x64/libsecp256k1.dll, osx-x64/libsecp256k1.dylib and linux-x64/libsecp256k1.so</Description>
@@ -37,6 +37,6 @@
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2"><PrivateAssets>all</PrivateAssets>
 <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 </PackageReference>
-    <PackageReference Include="Secp256k1.ZKP" Version="1.0.16" />
+    <PackageReference Include="Secp256k1.ZKP" Version="1.0.17" />
   </ItemGroup>
 </Project>
