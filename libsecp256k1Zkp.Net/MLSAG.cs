@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
+using Libsecp256k1Zkp.Net.Linking;
 using static Libsecp256k1Zkp.Net.Secp256k1Native;
 using static Libsecp256k1Zkp.Net.MLSAGNative;
 
 namespace Libsecp256k1Zkp.Net
 {
-    public class Transaction
-    {
-        public byte[]? Commitment { get; set; }
-        public byte[]? PublicKey { get; set; }
-    }
-
     public unsafe class MLSAG : IDisposable
     {
+        private readonly Lazy<secp256k1_context_create> secp256k1_context_create;
+        private readonly Lazy<secp256k1_get_keyimage> secp256k1_get_keyimage;
+        private readonly Lazy<secp256k1_prepare_mlsag> secp256k1_prepare_mlsag;
+        private readonly Lazy<secp256k1_generate_mlsag> secp256k1_generate_mlsag;
+        private readonly Lazy<secp256k1_verify_mlsag> secp256k1_verify_mlsag;
+        private readonly Lazy<secp256k1_context_destroy> secp256k1_context_destroy;
+        
+        private static readonly Lazy<string> _libPath = new(() => Resolver.Resolve(Constant.LIB));
+        private static readonly Lazy<IntPtr> _libPtr = new(() => LoadNative.LoadLib(_libPath.Value));
+
         public IntPtr Context { get; private set; }
 
         public MLSAG()
         {
-            Context = secp256k1_context_create((uint)(Flags.SECP256K1_CONTEXT_SIGN | Flags.SECP256K1_CONTEXT_VERIFY));
+            secp256k1_context_create = Util.LazyDelegate<secp256k1_context_create>(_libPtr);
+            secp256k1_get_keyimage = Util.LazyDelegate<secp256k1_get_keyimage>(_libPtr);
+            secp256k1_prepare_mlsag = Util.LazyDelegate<secp256k1_prepare_mlsag>(_libPtr);
+            secp256k1_generate_mlsag = Util.LazyDelegate<secp256k1_generate_mlsag>(_libPtr);
+            secp256k1_verify_mlsag = Util.LazyDelegate<secp256k1_verify_mlsag>(_libPtr);
+            secp256k1_context_destroy = Util.LazyDelegate<secp256k1_context_destroy>(_libPtr);
+            
+            Context = secp256k1_context_create.Value((uint)(Flags.SECP256K1_CONTEXT_SIGN | Flags.SECP256K1_CONTEXT_VERIFY));
         }
 
         /// <summary>
@@ -49,7 +60,7 @@ namespace Libsecp256k1Zkp.Net
             if (pk.Length != Constant.PUBLIC_KEY_COMPRESSED_SIZE) return keyImage;
 
             keyImage = new byte[Constant.PUBLIC_KEY_COMPRESSED_SIZE];
-            keyImage = secp256k1_get_keyimage(Context, keyImage, pk, sk) == 0 ? keyImage : null;
+            keyImage = secp256k1_get_keyimage.Value(Context, keyImage, pk, sk) == 0 ? keyImage : null;
 
             return keyImage;
         }
@@ -72,7 +83,7 @@ namespace Libsecp256k1Zkp.Net
             fixed (byte* publicKeysPtr = &MemoryMarshal.GetReference(publicKeys),
                 blindSumOutPtr = &MemoryMarshal.GetReference(blindSumOut))
             {
-                return secp256k1_prepare_mlsag(publicKeysPtr, blindSumOutPtr, nOuts, nBlinded, nCols, nRows,
+                return secp256k1_prepare_mlsag.Value(publicKeysPtr, blindSumOutPtr, nOuts, nBlinded, nCols, nRows,
                     Util.ToIntPtrs(inputs), Util.ToIntPtrs(outputs), Util.ToIntPtrs(blinds)) == 0;
             }
         }
@@ -101,7 +112,7 @@ namespace Libsecp256k1Zkp.Net
                 publicKeysPtr = &MemoryMarshal.GetReference(publicKeys))
             {
 
-                return secp256k1_generate_mlsag(Context, kiOutPtr, pcOutPtr, psOutPtr,
+                return secp256k1_generate_mlsag.Value(Context, kiOutPtr, pcOutPtr, psOutPtr,
                     noncePtr, preimagePtr, nCols, nRows, index, Util.ToIntPtrs(blinds), publicKeysPtr) == 0;
             }
         }
@@ -125,18 +136,17 @@ namespace Libsecp256k1Zkp.Net
                 pcPtr = &MemoryMarshal.GetReference(pc),
                 psPtr = &MemoryMarshal.GetReference(ps))
             {
-                return secp256k1_verify_mlsag(Context, preimagePtr, nCols, nRows, publicKeysPtr, kiPtr, pcPtr, psPtr) == 0;
+                return secp256k1_verify_mlsag.Value(Context, preimagePtr, nCols, nRows, publicKeysPtr, kiPtr, pcPtr, psPtr) == 0;
             }
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
         public void Dispose()
         {
             if (Context == IntPtr.Zero) return;
-
-            secp256k1_context_destroy(Context);
+            secp256k1_context_destroy.Value(Context);
             Context = IntPtr.Zero;
         }
     }

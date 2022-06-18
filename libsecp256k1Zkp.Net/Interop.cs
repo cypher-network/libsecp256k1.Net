@@ -7,120 +7,108 @@ namespace Libsecp256k1Zkp.Net
     [SuppressUnmanagedCodeSecurity]
     internal static class Secp256k1Native
     {
-#if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
-            private const string nativeLibrary = "__Internal";
-#else
-        private const string NATIVE_LIBRARY = "libsecp256k1";
-#endif
+        [SymbolName(nameof(secp256k1_context_create))]
+        public delegate IntPtr secp256k1_context_create(uint flags);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr secp256k1_context_create(uint flags);
+        [SymbolName(nameof(secp256k1_context_destroy))]
+        public delegate void secp256k1_context_destroy(IntPtr ctx);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void secp256k1_context_destroy(IntPtr ctx);
+        [SymbolName(nameof(secp256k1_ec_seckey_verify))]
+        public delegate int secp256k1_ec_seckey_verify(IntPtr ctx, byte[] seed32);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ec_seckey_verify(IntPtr ctx, byte[] seed32);
+        [SymbolName(nameof(secp256k1_ecdsa_verify))]
+        public delegate int secp256k1_ecdsa_verify(IntPtr ctx, byte[] sig, byte[] msg32, byte[] pubkey);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ecdsa_verify(IntPtr ctx, byte[] sig, byte[] msg32, byte[] pubkey);
+        [SymbolName(nameof(secp256k1_ecdsa_sign))]
+        public delegate int secp256k1_ecdsa_sign(IntPtr ctx, byte[] sig, byte[] msg32, byte[] seckey, IntPtr noncefp, IntPtr ndata);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ecdsa_sign(IntPtr ctx, byte[] sig, byte[] msg32, byte[] seckey, IntPtr noncefp, IntPtr ndata);
+        [SymbolName(nameof(secp256k1_ec_pubkey_serialize))]
+        public delegate int secp256k1_ec_pubkey_serialize(IntPtr ctx, byte[] output, ref uint outputlen, byte[] pubkey, uint flags);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ec_pubkey_serialize(IntPtr ctx, byte[] output, ref uint outputlen, byte[] pubkey, uint flags);
+        [SymbolName(nameof(secp256k1_ec_pubkey_create))]
+        public delegate int secp256k1_ec_pubkey_create(IntPtr ctx, byte[] pubKeyOut, byte[] privKeyIn);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ec_pubkey_create(IntPtr ctx, byte[] pubKeyOut, byte[] privKeyIn);
+        [SymbolName(nameof(secp256k1_scratch_space_create))]
+        public delegate IntPtr secp256k1_scratch_space_create(IntPtr ctx, uint max_size);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr secp256k1_scratch_space_create(IntPtr ctx, uint max_size);
+        [SymbolName(nameof(secp256k1_scratch_space_destroy))]
+        public delegate int secp256k1_scratch_space_destroy(IntPtr scratch);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_scratch_space_destroy(IntPtr scratch);
+        [SymbolName(nameof(secp256k1_ec_pubkey_parse))]
+        public delegate int secp256k1_ec_pubkey_parse(IntPtr ctx, byte[]? pubkey, byte[] input, int inputlen);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ec_pubkey_parse(IntPtr ctx, byte[] pubkey, byte[] input, int inputlen);
+        [SymbolName(nameof(secp256k1_context_randomize))]
+        public delegate int secp256k1_context_randomize(IntPtr ctx, byte[] seed32);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_context_randomize(IntPtr ctx, byte[] seed32);
+        [SymbolName(nameof(secp256k1_ecdh))]
+        public delegate int secp256k1_ecdh(IntPtr ctx, byte[]? result, byte[] pubkey, byte[] privkey);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ecdh(IntPtr ctx, byte[] result, byte[] pubkey, byte[] privkey);
+        [SymbolName(nameof(secp256k1_ec_pubkey_tweak_add))]
+        public delegate int secp256k1_ec_pubkey_tweak_add(IntPtr ctx, byte[] pubkey, byte[] tweak);
 
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ec_pubkey_tweak_add(IntPtr ctx, byte[] pubkey, byte[] tweak);
-
-        [DllImport(NATIVE_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_ec_privkey_tweak_add(IntPtr ctx, byte[] seckey, byte[] tweak);
+        [SymbolName(nameof(secp256k1_ec_privkey_tweak_add))]
+        public delegate int secp256k1_ec_privkey_tweak_add(IntPtr ctx, byte[] seckey, byte[] tweak);
 
     }
 
     [SuppressUnmanagedCodeSecurity]
     internal static class PedersenNative
     {
-#if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
-            private const string nativeLibrary = "__Internal";
-#else
-        private const string nativeLibrary = "libsecp256k1";
-#endif
+        [SymbolName(nameof(secp256k1_context_create))]
+        public delegate IntPtr secp256k1_context_create(uint flags);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr secp256k1_context_create(uint flags);
+        [SymbolName(nameof(secp256k1_context_destroy))]
+        public delegate void secp256k1_context_destroy(IntPtr ctx);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void secp256k1_context_destroy(IntPtr ctx);
+        [SymbolName(nameof(secp256k1_pedersen_blind_sum))]
+        public delegate int secp256k1_pedersen_blind_sum(IntPtr ctx, byte[] blind_out, IntPtr[] blinds, uint n, uint npositive);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_blind_sum(IntPtr ctx, byte[] blind_out, IntPtr[] blinds, uint n, uint npositive);
+        [SymbolName(nameof(secp256k1_pedersen_blind_commit))]
+        public delegate int secp256k1_pedersen_blind_commit(IntPtr ctx, byte[] commit, byte[] blind, byte[] value, byte[] value_gen, byte[] blind_gen);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_blind_commit(IntPtr ctx, byte[] commit, byte[] blind, byte[] value, byte[] value_gen, byte[] blind_gen);
+        [SymbolName(nameof(secp256k1_pedersen_commit))]
+        public delegate int secp256k1_pedersen_commit(IntPtr ctx, byte[] commit, byte[] blind, ulong value, byte[] value_gen, byte[] blind_gen);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_commit(IntPtr ctx, byte[] commit, byte[] blind, ulong value, byte[] value_gen, byte[] blind_gen);
+        [SymbolName(nameof(secp256k1_pedersen_commitment_serialize))]
+        public delegate int secp256k1_pedersen_commitment_serialize(IntPtr ctx, byte[] output, byte[] commit);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_commitment_serialize(IntPtr ctx, byte[] output, byte[] commit);
+        [SymbolName(nameof(secp256k1_pedersen_commitment_parse))]
+        public delegate int secp256k1_pedersen_commitment_parse(IntPtr ctx, byte[] commit, byte[] input);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_commitment_parse(IntPtr ctx, byte[] commit, byte[] input);
+        [SymbolName(nameof(secp256k1_pedersen_commit_sum))]
+        public delegate int secp256k1_pedersen_commit_sum(IntPtr ctx, byte[] commit_out, IntPtr[] commits, uint pcnt, IntPtr[] ncommits, uint ncnt);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_commit_sum(IntPtr ctx, byte[] commit_out, IntPtr[] commits, uint pcnt, IntPtr[] ncommits, uint ncnt);
+        [SymbolName(nameof(secp256k1_pedersen_verify_tally))]
+        public delegate int secp256k1_pedersen_verify_tally(IntPtr ctx, IntPtr[] pos, uint n_pos, IntPtr[] neg, uint n_neg);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_verify_tally(IntPtr ctx, IntPtr[] pos, uint n_pos, IntPtr[] neg, uint n_neg);
+        [SymbolName(nameof(secp256k1_blind_switch))]
+        public delegate int secp256k1_blind_switch(IntPtr ctx, byte[] blind_switch, byte[] blind, ulong value, byte[] value_gen, byte[] blind_gen, byte[] switch_pubkey);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_blind_switch(IntPtr ctx, byte[] blind_switch, byte[] blind, ulong value, byte[] value_gen, byte[] blind_gen, byte[] switch_pubkey);
-
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_pedersen_commitment_to_pubkey(IntPtr ctx, byte[] pubkey, byte[] commit);
+        [SymbolName(nameof(secp256k1_pedersen_commitment_to_pubkey))]
+        public delegate int secp256k1_pedersen_commitment_to_pubkey(IntPtr ctx, byte[] pubkey, byte[] commit);
     }
 
     [SuppressUnmanagedCodeSecurity]
     internal static class RangeProofNative
     {
-#if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
-            private const string nativeLibrary = "__Internal";
-#else
-        private const string nativeLibrary = "libsecp256k1";
-#endif
+        [SymbolName(nameof(secp256k1_context_create))]
+        public delegate IntPtr secp256k1_context_create(uint flags);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_rangeproof_info(IntPtr ctx, ref int exp, ref int mantissa, ref ulong min_value, ref ulong max_value, byte[] proof, uint plen);
+        [SymbolName(nameof(secp256k1_context_destroy))]
+        public delegate void secp256k1_context_destroy(IntPtr ctx);
+        
+        [SymbolName(nameof(secp256k1_rangeproof_info))]
+        public delegate int secp256k1_rangeproof_info(IntPtr ctx, ref int exp, ref int mantissa, ref ulong min_value, ref ulong max_value, byte[] proof, uint plen);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_rangeproof_rewind(IntPtr ctx, byte[] blind_out, ref ulong value_out, byte[] message_out, ref uint outlen, byte[] nonce, ref ulong min_value,
+        [SymbolName(nameof(secp256k1_rangeproof_rewind))]
+        public delegate int secp256k1_rangeproof_rewind(IntPtr ctx, byte[] blind_out, ref ulong value_out, byte[] message_out, ref uint outlen, byte[] nonce, ref ulong min_value,
             ref ulong max_value, byte[] commit, byte[] proof, uint plen, byte[] extra_commit, uint extra_commit_len, byte[] gen);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_rangeproof_verify(IntPtr ctx, ref ulong min_value, ref ulong max_value, byte[] commit, byte[] proof, uint plen, byte[] extra_commit, uint extra_commit_len, byte[] gen);
+        [SymbolName(nameof(secp256k1_rangeproof_verify))]
+        public delegate int secp256k1_rangeproof_verify(IntPtr ctx, ref ulong min_value, ref ulong max_value, byte[] commit, byte[] proof, uint plen, byte[] extra_commit, uint extra_commit_len, byte[] gen);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_rangeproof_sign(IntPtr ctx, byte[] proof, ref uint plen, ulong min_value, byte[] commit, byte[] blind, byte[] nonce, int exp, int min_bits,
+        [SymbolName(nameof(secp256k1_rangeproof_sign))]
+        public delegate int secp256k1_rangeproof_sign(IntPtr ctx, byte[] proof, ref uint plen, ulong min_value, byte[] commit, byte[] blind, byte[] nonce, int exp, int min_bits,
             ulong value, byte[] message, uint msg_len, byte[] extra_commit, uint extra_commit_len, byte[] gen);
 
     }
@@ -128,32 +116,45 @@ namespace Libsecp256k1Zkp.Net
     [SuppressUnmanagedCodeSecurity]
     internal static class BulletProofNative
     {
-#if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
-            private const string nativeLibrary = "__Internal";
-#else
-        private const string nativeLibrary = "libsecp256k1";
-#endif
+        [SymbolName(nameof(secp256k1_context_create))]
+        public delegate IntPtr secp256k1_context_create(uint flags);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr secp256k1_bulletproof_generators_create(IntPtr ctx, byte[] blinding_gen, int n);
+        [SymbolName(nameof(secp256k1_context_destroy))]
+        public delegate void secp256k1_context_destroy(IntPtr ctx);
+        
+        [SymbolName(nameof(secp256k1_bulletproof_generators_create))]
+        public delegate IntPtr secp256k1_bulletproof_generators_create(IntPtr ctx, byte[] blinding_gen, int n);
+        
+        [SymbolName(nameof(secp256k1_scratch_space_create))]
+        public delegate IntPtr secp256k1_scratch_space_create(IntPtr ctx, uint max_size);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_bulletproof_rangeproof_prove(IntPtr ctx, IntPtr scratch, IntPtr gens, byte[] proof, ref int plen, byte[] tau_x, byte[] t_one, byte[] t_two, IntPtr[] value, IntPtr[] min_value,
+        [SymbolName(nameof(secp256k1_scratch_space_destroy))]
+        public delegate int secp256k1_scratch_space_destroy(IntPtr scratch);
+
+        [SymbolName(nameof(secp256k1_bulletproof_rangeproof_prove))]
+        public delegate int secp256k1_bulletproof_rangeproof_prove(IntPtr ctx, IntPtr scratch, IntPtr gens, byte[] proof, ref int plen, byte[] tau_x, byte[] t_one, byte[] t_two, IntPtr[] value, IntPtr[] min_value,
             IntPtr[] blind, byte[] commits, int n_commits, byte[] value_gen, int nbits, byte[] nonce, byte[] private_nonce, byte[] extra_commit, int extra_commit_len, byte[] message);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_bulletproof_rangeproof_verify(IntPtr ctx, IntPtr scratch, IntPtr gens, byte[] proof, int plen, IntPtr[] min_value, byte[] commit, int n_commits, int nbits, byte[] value_gen,
+        [SymbolName(nameof(secp256k1_bulletproof_rangeproof_verify))]
+        public delegate int secp256k1_bulletproof_rangeproof_verify(IntPtr ctx, IntPtr scratch, IntPtr gens, byte[] proof, int plen, IntPtr[] min_value, byte[] commit, int n_commits, int nbits, byte[] value_gen,
             byte[] extra_commit, int extra_commit_len);
+        
+        [SymbolName(nameof(secp256k1_bulletproof_rangeproof_rewind))]
+        public delegate int secp256k1_bulletproof_rangeproof_rewind(IntPtr ctx, ref ulong value, byte[] blind, byte[] proof, uint plen, int min_value, byte[] commit, byte[] value_gen, byte[] nonce, byte[] extra_commit, int extra_commit_len, byte[] message);
     }
 
     [SuppressUnmanagedCodeSecurity]
     internal static class SchnorrNative
     {
-#if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
-            private const string nativeLibrary = "__Internal";
-#else
-        private const string nativeLibrary = "libsecp256k1";
+        [SymbolName(nameof(secp256k1_context_create))]
+        public delegate IntPtr secp256k1_context_create(uint flags);
 
+        [SymbolName(nameof(secp256k1_context_destroy))]
+        public delegate void secp256k1_context_destroy(IntPtr ctx);
+        
+        [SymbolName(nameof(secp256k1_scratch_space_create))]
+        public delegate IntPtr secp256k1_scratch_space_create(IntPtr ctx, uint max_size);
+        
         /// <summary>
         /// Serialize a Schnorr signature.
         /// </summary>
@@ -162,8 +163,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="sig">Pointer to the signature</param>
         /// <returns>1</returns>
         /// <see cref="secp256k1_schnorrsig_parse(IntPtr, byte[], byte[])"/>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_schnorrsig_serialize(IntPtr ctx, byte[] out64, byte[] sig);
+        [SymbolName(nameof(secp256k1_schnorrsig_serialize))]
+        public delegate int secp256k1_schnorrsig_serialize(IntPtr ctx, byte[] out64, byte[] sig);
 
         /// <summary>
         /// Parse a Schnorr signature.
@@ -181,8 +182,8 @@ namespace Libsecp256k1Zkp.Net
         /// encoded numbers are out of range, signature validation with it is
         /// guaranteed to fail for every message and public key.
         /// </remarks>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_schnorrsig_parse(IntPtr ctx, byte[] sig, byte[] in64);
+        [SymbolName(nameof(secp256k1_schnorrsig_parse))]
+        public delegate int secp256k1_schnorrsig_parse(IntPtr ctx, byte[] sig, byte[] in64);
 
         /// <summary>
         /// Create a Schnorr signature.
@@ -195,8 +196,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="noncefp">Pointer to a nonce generation function. If NULL, secp256k1_nonce_function_bipschnorr is used.</param>
         /// <param name="ndata">Pointer to arbitrary data used by the nonce generation function (can be NULL)</param>
         /// <returns>1 on success, 0 on failure</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_schnorrsig_sign(IntPtr ctx, byte[] sig, ref int nonce_is_negated, byte[] msg32, byte[] seckey, IntPtr noncefp, IntPtr ndata);
+        [SymbolName(nameof(secp256k1_schnorrsig_sign))]
+        public delegate int secp256k1_schnorrsig_sign(IntPtr ctx, byte[] sig, ref int nonce_is_negated, byte[] msg32, byte[] seckey, IntPtr noncefp, IntPtr ndata);
 
         /// <summary>
         /// Verify a Schnorr signature.
@@ -206,8 +207,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="msg32">The 32-byte message hash being verified (cannot be NULL)</param>
         /// <param name="pubkey">Pointer to a public key to verify with (cannot be NULL)</param>
         /// <returns>1 correct signature, 0 incorrect or unparseable signature.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_schnorrsig_verify(IntPtr ctx, byte[] sig, byte[] msg32, byte[] pubkey);
+        [SymbolName(nameof(secp256k1_schnorrsig_verify))]
+        public delegate int secp256k1_schnorrsig_verify(IntPtr ctx, byte[] sig, byte[] msg32, byte[] pubkey);
 
         /// <summary>
         /// Verifies a set of Schnorr signatures.
@@ -221,22 +222,14 @@ namespace Libsecp256k1Zkp.Net
         /// 2^31 and smaller than half the maximum size_t value. Must be 0
         /// if above arrays are NULL</param>
         /// <returns>1 if all succeeded, 0 otherwise. In particular, returns 1 if n_sigs is 0.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_schnorrsig_verify_batch(IntPtr ctx, IntPtr scratch, IntPtr[] sig, IntPtr[] msg32, IntPtr[] pk, uint n_sigs);
-
-#endif
-
+        [SymbolName(nameof(secp256k1_schnorrsig_verify_batch))]
+        public delegate int secp256k1_schnorrsig_verify_batch(IntPtr ctx, IntPtr scratch, IntPtr[] sig, IntPtr[] msg32, IntPtr[] pk, uint n_sigs);
     }
 
 
     [SuppressUnmanagedCodeSecurity]
     internal static class MuSigNative
     {
-#if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
-            private const string nativeLibrary = "__Internal";
-#else
-        private const string nativeLibrary = "libsecp256k1";
-#endif
         //secp256k1_musig_partial_sig_adapt
         //secp256k1_musig_extract_secret_adaptor
 
@@ -245,14 +238,14 @@ namespace Libsecp256k1Zkp.Net
         /// </summary>
         /// <param name="flags"></param>
         /// <returns></returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr secp256k1_context_create(uint flags);
+        [SymbolName(nameof(secp256k1_context_create))]
+        public delegate IntPtr secp256k1_context_create(uint flags);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ctx"></param>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [SymbolName(nameof(secp256k1_context_destroy))]
         internal static extern void secp256k1_context_destroy(IntPtr ctx);
 
         /// <summary>
@@ -265,8 +258,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="pubkeys">input array of public keys to combine. The order is important; a different order will result in a different combined public key (cannot be NULL)</param>
         /// <param name="n_pubkeys">Length of pubkeys array</param>
         /// <returns>1 if the public keys were successfully combined, 0 otherwise.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_pubkey_combine(IntPtr ctx, IntPtr scratch, byte[] combined_pk, byte[] pk_hash32, IntPtr[] pubkeys, uint n_pubkeys);
+        [SymbolName(nameof(secp256k1_musig_pubkey_combine))]
+        public delegate int secp256k1_musig_pubkey_combine(IntPtr ctx, IntPtr scratch, byte[] combined_pk, byte[] pk_hash32, IntPtr[] pubkeys, uint n_pubkeys);
 
         /// <summary>
         /// Initializes a signing session for a signer.
@@ -283,8 +276,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="my_index">Index of this signer in the signers array.</param>
         /// <param name="seckey">The signer's 32-byte secret key (cannot be NULL)</param>
         /// <returns>1: Session is successfully initialized. 0: Session could not be initialized: secret key or secret nonce overflow.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_session_initialize(IntPtr ctx, IntPtr session, IntPtr[] signers, byte[] nonce_commitment32, byte[] session_id32, byte[] msg32, byte[] combined_pk, byte[] pk_hash32, uint n_signers, uint my_index, byte[] seckey);
+        [SymbolName(nameof(secp256k1_musig_session_initialize))]
+        public delegate int secp256k1_musig_session_initialize(IntPtr ctx, IntPtr session, IntPtr[] signers, byte[] nonce_commitment32, byte[] session_id32, byte[] msg32, byte[] combined_pk, byte[] pk_hash32, uint n_signers, uint my_index, byte[] seckey);
 
         /// <summary>
         /// Gets the signer's public nonce given a list of all signers' data with commitments.
@@ -297,8 +290,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="n_commitments">The length of commitments and signers array. Must be the total number of signers participating in the MuSig.</param>
         /// <param name="msg32">The 32-byte message to be signed. Must be NULL if already set with `musig_session_initialize` otherwise can not be NULL.</param>
         /// <returns>1: public nonce is written in nonce. 0: signer data is missing commitments or session isn't initialized for signing.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_session_get_public_nonce(IntPtr ctx, IntPtr session, IntPtr[] signers, byte[] nonce, IntPtr[] commitments, uint n_commitments, byte[] msg32);
+        [SymbolName(nameof(secp256k1_musig_session_get_public_nonce))]
+        public delegate int secp256k1_musig_session_get_public_nonce(IntPtr ctx, IntPtr session, IntPtr[] signers, byte[] nonce, IntPtr[] commitments, uint n_commitments, byte[] msg32);
 
         /// <summary>
         /// Initializes a verifier session that can be used for verifying nonce commitments
@@ -314,8 +307,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="commitments">Array of 32-byte nonce commitments. Array length must equal to `n_signers` (cannot be NULL)</param>
         /// <param name="n_signers">Length of signers and commitments array. Number of signers participating in the MuSig. Must be greater than 0 and at most 2^32 - 1.</param>
         /// <returns>1 when session is successfully initialized, 0 otherwise</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_session_initialize_verifier(IntPtr ctx, IntPtr session, IntPtr[] signers, byte[] msg32, byte[] combined_pk, byte[] pk_hash32, IntPtr[] commitments, uint n_signers);
+        [SymbolName(nameof(secp256k1_musig_session_initialize_verifier))]
+        public delegate int secp256k1_musig_session_initialize_verifier(IntPtr ctx, IntPtr session, IntPtr[] signers, byte[] msg32, byte[] combined_pk, byte[] pk_hash32, IntPtr[] commitments, uint n_signers);
 
         /// <summary>
         /// Checks a signer's public nonce against a commitment to said nonce, and update data structure if they match.
@@ -324,8 +317,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="signer">pointer to the signer data to update (cannot be NULL). Must have been used with `musig_session_get_public_nonce` or initialized with `musig_session_initialize_verifier`.</param>
         /// <param name="nonce">Signer's alleged public nonce (cannot be NULL)</param>
         /// <returns>1: Commitment was valid, data structure updated. 0: Commitment was invalid, nothing happened.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_set_nonce(IntPtr ctx, IntPtr signer, byte[] nonce);
+        [SymbolName(nameof(secp256k1_musig_set_nonce))]
+        public delegate int secp256k1_musig_set_nonce(IntPtr ctx, IntPtr signer, byte[] nonce);
 
         /// <summary>
         /// Updates a session with the combined public nonce of all signers. The combined public nonce is the sum of every signer's public nonce.
@@ -337,8 +330,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="nonce_is_negated">A pointer to an integer that indicates if the combined public nonce had to be negated.</param>
         /// <param name="adaptor">Point to add to the combined public nonce. If NULL, nothing is added to the combined nonce.</param>
         /// <returns>1: Nonces are successfully combined. 0: A signer's nonce is missing</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_session_combine_nonces(IntPtr ctx, IntPtr session, IntPtr[] signers, uint n_signers, int nonce_is_negated, byte[] adaptor);
+        [SymbolName(nameof(secp256k1_musig_session_combine_nonces))]
+        public delegate int secp256k1_musig_session_combine_nonces(IntPtr ctx, IntPtr session, IntPtr[] signers, uint n_signers, int nonce_is_negated, byte[] adaptor);
 
         /// <summary>
         /// Serialize a MuSig partial signature or adaptor signature.
@@ -347,8 +340,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="out32">Pointer to a 32-byte array to store the serialized signature</param>
         /// <param name="sig">Pointer to the signature</param>
         /// <returns>1 When the signature could be serialized, 0 Otherwise</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_partial_signature_serialize(IntPtr ctx, byte[] out32, byte[] sig);
+        [SymbolName(nameof(secp256k1_musig_partial_signature_serialize))]
+        public delegate int secp256k1_musig_partial_signature_serialize(IntPtr ctx, byte[] out32, byte[] sig);
 
         /// <summary>
         /// Parse and verify a MuSig partial signature.
@@ -360,8 +353,8 @@ namespace Libsecp256k1Zkp.Net
         /// <remarks>After the call, sig will always be initialized. If parsing failed or the
         /// encoded numbers are out of range, signature verification with it is
         /// guaranteed to fail for every message and public key.</remarks>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_partial_signature_parse(IntPtr ctx, byte[] sig, byte[] in32);
+        [SymbolName(nameof(secp256k1_musig_partial_signature_parse))]
+        public delegate int secp256k1_musig_partial_signature_parse(IntPtr ctx, byte[] sig, byte[] in32);
 
         /// <summary>
         /// Produces a partial signature.
@@ -370,8 +363,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="session">Active signing session for which the combined nonce has been computed (cannot be NULL)</param>
         /// <param name="partial_sig">Partial signature (cannot be NULL)</param>
         /// <returns>1: Partial signature constructed. 0: Session in incorrect or inconsistent state.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_partial_sign(IntPtr ctx, IntPtr session, byte[] partial_sig);
+        [SymbolName(nameof(secp256k1_musig_partial_sign))]
+        public delegate int secp256k1_musig_partial_sign(IntPtr ctx, IntPtr session, byte[] partial_sig);
 
         /// <summary>
         /// Checks that an individual partial signature verifies.
@@ -387,8 +380,8 @@ namespace Libsecp256k1Zkp.Net
         /// partial signatures does not verify, the full signature will also not verify, so the
         /// problem will be caught. But this function allows determining the specific p
         /// who produced an invalid signature, so that signing can be restarted without them.</remarks>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_partial_sig_verify(IntPtr ctx, IntPtr session, IntPtr signer, byte[] partial_sig, byte[] pubkey);
+        [SymbolName(nameof(secp256k1_musig_partial_sig_verify))]
+        public delegate int secp256k1_musig_partial_sig_verify(IntPtr ctx, IntPtr session, IntPtr signer, byte[] partial_sig, byte[] pubkey);
 
         /// <summary>
         /// Combines partial signatures.
@@ -404,8 +397,8 @@ namespace Libsecp256k1Zkp.Net
         /// signature for the tweaked key. Otherwise `tweak` should be NULL.
         ///  If the tweak is larger than the group order or 0 this function will return 0. (can be NULL)</param>
         /// <returns>1: all partial signatures have values in range. Does NOT mean the resulting signature verifies. 0: Some partial signature had s/r out of range</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_partial_sig_combine(IntPtr ctx, IntPtr session, byte[] sig, IntPtr[] partial_sigs, uint n_sigs, IntPtr tweak32);
+        [SymbolName(nameof(secp256k1_musig_partial_sig_combine))]
+        public delegate int secp256k1_musig_partial_sig_combine(IntPtr ctx, IntPtr session, byte[] sig, IntPtr[] partial_sigs, uint n_sigs, IntPtr tweak32);
 
         /// <summary>
         /// Converts a partial signature to an adaptor signature by adding a given secret adaptor.
@@ -416,8 +409,8 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="sec_adaptor32">32-byte secret adaptor to add to the partial signature (cannot be NULL)</param>
         /// <param name="nonce_is_negated">The `nonce_is_negated` output of `musig_session_combine_nonces`</param>
         /// <returns>1: Signature and secret adaptor contained valid values. 0: Otherwise.</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_partial_sig_adapt(IntPtr ctx, byte[] adaptor_sig, byte[] partial_sig, byte[] sec_adaptor32, int nonce_is_negated);
+        [SymbolName(nameof(secp256k1_musig_partial_sig_adapt))]
+        public delegate int secp256k1_musig_partial_sig_adapt(IntPtr ctx, byte[] adaptor_sig, byte[] partial_sig, byte[] sec_adaptor32, int nonce_is_negated);
 
 
         /// <summary>
@@ -434,22 +427,16 @@ namespace Libsecp256k1Zkp.Net
         /// <param name="n_partial_sigs">Number of elements in partial_sigs array</param>
         /// <param name="nonce_is_negated">The `nonce_is_negated` output of `musig_session_combine_nonces`</param>
         /// <returns>1: Signatures contained valid data such that an adaptor could be extracted. 0: Otherwise</returns>
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_musig_extract_secret_adaptor(IntPtr ctx, byte[] sec_adaptor32, byte[] sig, IntPtr[] partial_sigs, uint n_partial_sigs, int nonce_is_negated);
+        [SymbolName(nameof(secp256k1_musig_extract_secret_adaptor))]
+        public delegate int secp256k1_musig_extract_secret_adaptor(IntPtr ctx, byte[] sec_adaptor32, byte[] sig, IntPtr[] partial_sigs, uint n_partial_sigs, int nonce_is_negated);
     }
 
 
     [SuppressUnmanagedCodeSecurity]
     internal unsafe static class MLSAGNative
     {
-#if __IOS__ || (UNITY_IOS && !UNITY_EDITOR)
-            private const string nativeLibrary = "__Internal";
-#else
-        private const string nativeLibrary = "libsecp256k1";
-#endif
-
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_prepare_mlsag(
+        [SymbolName(nameof(secp256k1_prepare_mlsag))]
+        public delegate int secp256k1_prepare_mlsag(
             [In, Out] void* pubkeys,
             [Out] void* blind_out,
             int n_outs,
@@ -460,15 +447,15 @@ namespace Libsecp256k1Zkp.Net
             [In] IntPtr[] outputs,
             [In] IntPtr[] blinds);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_get_keyimage(
+        [SymbolName(nameof(secp256k1_get_keyimage))]
+        public delegate int secp256k1_get_keyimage(
             IntPtr ctx,
             byte[] output,
             byte[] pubkey,
             byte[] blind);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_generate_mlsag(
+        [SymbolName(nameof(secp256k1_generate_mlsag))]
+        public delegate int secp256k1_generate_mlsag(
             IntPtr ctx,
             [Out] void* imagekeys,
             [Out] void* pc,
@@ -481,8 +468,8 @@ namespace Libsecp256k1Zkp.Net
             [In] IntPtr[] blinds,
             [In] void* pubkeys);
 
-        [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int secp256k1_verify_mlsag(
+        [SymbolName(nameof(secp256k1_verify_mlsag))]
+        public delegate int secp256k1_verify_mlsag(
             IntPtr ctx,
             [In] void* msg32,
             int n_cols,
@@ -491,6 +478,9 @@ namespace Libsecp256k1Zkp.Net
             [In] void* imagekeys,
             [In] void* pc,
             [In] void* ps);
+
+        [SymbolName(nameof(secp256k1_hash_to_curve_mlsag))]
+        public delegate int secp256k1_hash_to_curve_mlsag(byte[] preimage, int len);
     }
 
     [Flags]

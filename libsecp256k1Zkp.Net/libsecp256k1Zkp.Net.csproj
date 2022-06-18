@@ -3,10 +3,10 @@
   <PropertyGroup>
     <RootNamespace>libsecp256k1Zkp.Net</RootNamespace>
     <PackageId>libsecp256k1Zkp.Net</PackageId>
-    <PackageVersion>1.1.10</PackageVersion>
+    <PackageVersion>1.1.11</PackageVersion>
     <Authors>pingpongsneak</Authors>
     <PackageIconUrl>https://github.com/cypher-network.png</PackageIconUrl>
-    <NeutralLanguage>en-ZA</NeutralLanguage>
+    <NeutralLanguage></NeutralLanguage>
     <PackageLicenseUrl>https://raw.githubusercontent.com/cypher-network/libsecp256k1.Net/main/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Owners>Tangram Inc</Owners>
@@ -18,7 +18,9 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.1.11</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

@@ -3,6 +3,8 @@ namespace Libsecp256k1Zkp.Net
 {
     public static class Constant
     {
+        public const string LIB = "secp256k1";
+        
         public const int MAX_N_INPUTS = 32;
         public const int MAX_N_OUTPUTS = 32;
         public const int MAX_N_COLUMNS = 32;

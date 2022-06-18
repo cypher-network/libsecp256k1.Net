@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
+using Libsecp256k1Zkp.Net.Linking;
 
 namespace Libsecp256k1Zkp.Net
 {
@@ -143,6 +144,18 @@ namespace Libsecp256k1Zkp.Net
                 bytes[i] = (byte)(lo | hi << 4);
             }
             return bytes;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="libPtr"></param>
+        /// <typeparam name="TDelegate"></typeparam>
+        /// <returns></returns>
+        public static Lazy<TDelegate> LazyDelegate<TDelegate>(Lazy<IntPtr> libPtr)
+        {
+            var symbol = SymbolNameCache<TDelegate>.SymbolName;
+            return new Lazy<TDelegate>(() => LoadNative.GetDelegate<TDelegate>(libPtr.Value, symbol), isThreadSafe: false);
         }
     }
 }
